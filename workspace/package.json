@@ -6,6 +6,8 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
+    "compodoc:api": "yarn compodoc -p ./apps/api/tsconfig.json",
+    "compodoc:app": "yarn compodoc -p ./apps/cdef-wallet/tsconfig.json",
     "prisma:generate": "yarn prisma generate --schema=./apps/api/prisma/schema.prisma",
     "prisma:pull": "yarn prisma db pull --schema=./apps/api/prisma/schema.prisma",
     "prisma:push": "yarn prisma db push --schema=./apps/api/prisma/schema.prisma"
