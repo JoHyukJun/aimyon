@@ -5,11 +5,15 @@
   "scripts": {
     "start": "nx serve",
     "build": "nx build",
-    "test": "nx test"
+    "test": "nx test",
+    "prisma:generate": "yarn prisma generate --schema=./apps/api/prisma/schema.prisma",
+    "prisma:pull": "yarn prisma db pull --schema=./apps/api/prisma/schema.prisma",
+    "prisma:push": "yarn prisma db push --schema=./apps/api/prisma/schema.prisma"
   },
   "private": true,
   "dependencies": {
     "@compodoc/compodoc": "^1.1.19",
+    "@nestjs/cli": "^9.1.5",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
