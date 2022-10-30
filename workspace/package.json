@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve",
+    "serve:all": "nx run-many --parallel --target=serve --projects=api,app",
     "build": "nx build",
     "test": "nx test",
     "compodoc:api": "yarn compodoc -p ./apps/api/tsconfig.json",
