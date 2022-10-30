@@ -4,9 +4,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BoardModule } from './board/board.module';
 import { AuthModule } from './auth/auth.module';
+import { FeedModule } from './feed/feed.module';
 
 @Module({
-  imports: [BoardModule, AuthModule],
+  imports: [BoardModule, AuthModule, FeedModule],
   controllers: [AppController],
   providers: [AppService],
 })
