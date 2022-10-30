@@ -37,7 +37,7 @@ services:
         BUILD_FLAG: ""
     image: client:nx-dev
     ports:
-      - 4900:80
+      - 80:80
     environment:
       NODE_ENV: "development"
       PORT: 4900
