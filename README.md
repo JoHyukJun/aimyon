@@ -1,10 +1,8 @@
 # aimyon
-### Author: Jo Hyuk Jun
+### Author: JO HYUK JUN
 #
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/JoHyukJun/aimyon)
 #
-
-
 ## Introduction
 This project is being developed using Nestjs and React.
 
