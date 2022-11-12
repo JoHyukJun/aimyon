@@ -25,6 +25,18 @@ export class UserService {
         return response;
     }
 
+    async getUserProfile(params) {
+        const id = params.id;
+
+        const response = await this.prisma.profile.findFirst({
+            where: {
+                userId: id
+            }
+        });
+
+        return response;
+    }
+
     async deleteUser(params) {
         const id = params.id;
 

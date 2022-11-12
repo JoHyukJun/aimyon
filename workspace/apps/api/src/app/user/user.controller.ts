@@ -18,6 +18,11 @@ export class UserController {
         return this.userService.getUserById(params);
     }
 
+    @Get('/profile/:id')
+    getUserProfile(@Param() params) {
+        return this.userService.getUserProfile(params);
+    }
+
     @Delete(':id')
     deleteUser(@Param() params) {
         return this.userService.deleteUser(params);
