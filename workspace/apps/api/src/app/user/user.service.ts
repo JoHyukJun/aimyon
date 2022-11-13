@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { CreateUserDto } from '../common/dtos/create-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -76,7 +77,10 @@ export class UserService {
         return response;
     }
 
-    async signUp(body) {
+    async signUp(body: CreateUserDto) {
+        const userData = body;
+
+        console.log(userData);
         const email = body.email;
         const profile = body.profile;
 

@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { Post, Req } from '@nestjs/common/decorators';
+import { Delete, Param, Post, Req } from '@nestjs/common/decorators';
 import { BoardService } from './board.service';
 
 @Controller('board')
@@ -9,12 +9,17 @@ export class BoardController {
     ) {}
 
     @Get()
-    getBoardAll() {
-        return this.boardSerive.findBoardAll();
+    getPostAll() {
+        return this.boardSerive.getPostAll();
+    }
+
+    @Delete(':id')
+    deletePost(@Param() params) {
+        return this.boardSerive.deletePost(params);
     }
 
     @Post()
-    createBoard(@Req() req) {
-        return this.boardSerive.createBoard(req.body);
+    createPost(@Req() req) {
+        return this.boardSerive.createPost(req.body);
     }
 }
