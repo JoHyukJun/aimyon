@@ -1,7 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseInterceptors } from '@nestjs/common';
 import { Body, Delete, Param, Patch, Post, Req } from '@nestjs/common/decorators';
+import { TransformInterceptor } from '../common/interceptors/transform.interceptor';
 import { UserService } from './user.service';
 
+@UseInterceptors(TransformInterceptor)
 @Controller('user')
 export class UserController {
     constructor(
