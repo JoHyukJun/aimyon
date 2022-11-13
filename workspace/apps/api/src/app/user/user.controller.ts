@@ -1,5 +1,6 @@
 import { Controller, Get, UseInterceptors } from '@nestjs/common';
 import { Body, Delete, Param, Patch, Post, Req } from '@nestjs/common/decorators';
+import { CreateUserDto, UpdateProfileDto } from '../common/dtos/create-user.dto';
 import { TransformInterceptor } from '../common/interceptors/transform.interceptor';
 import { UserService } from './user.service';
 
@@ -31,12 +32,12 @@ export class UserController {
     }
 
     @Patch('/profile/:id')
-    updateUserProfile(@Param() params, @Body() body) {
+    updateUserProfile(@Param() params, @Body() body: UpdateProfileDto) {
         return this.userService.updateUserProfile(params, body);
     }
 
     @Post('/signup')
-    createUser(@Req() req) {
-        return this.userService.signUp(req.body);
+    createUser(@Body() body: CreateUserDto) {
+        return this.userService.signUp(body);
     }
 }

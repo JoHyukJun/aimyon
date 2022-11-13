@@ -5,11 +5,38 @@ import { PrismaService } from '../prisma/prisma.service';
 export class BoardService {
     constructor(private prisma: PrismaService) {}
 
-    async findBoardAll() {
+    async getPostAll() {
         return await this.prisma.post.findMany();
     }
 
-    async createBoard(body) {
+    async updatePost(params, body) {
+        const id = params.id;
+        const updateData = body;
+
+        const response = await this.prisma.post.update({
+            where: {
+                id: id
+            },
+            data: {
+            }
+        });
+
+        return response;
+    }
+
+    async deletePost(params) {
+        const id = params.id;
+
+        const response = await this.prisma.post.delete({
+            where: {
+                id: id
+            }
+        });
+
+        return response;
+    }
+
+    async createPost(body) {
         // const response = await this.prisma.post.create({
         //     data: {
         //         slug: body.slug,
