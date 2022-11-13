@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { profile } from 'console';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -40,33 +41,52 @@ export class UserService {
     async deleteUser(params) {
         const id = params.id;
 
-        const response = await this.prisma.user.delete({
+        const profileData = await this.prisma.profile.delete({
+            where: {
+                userId: id
+            }
+        })
+
+        const userData = await this.prisma.user.delete({
             where: {
                 id: id
             }
         });
 
+        const response = {
+            user: userData,
+            profile: profileData
+        }
+
         return response;
     }
 
-    async updateUser(params, body) {
+    async updateUserProfile(params, body) {
         const id = params.id;
         const updateData = body;
 
-        const response = await this.prisma.user.update({
+        const response = await this.prisma.profile.update({
             where: {
-                id: id
+                userId: id
             },
             data: {
+                name: updateData.name
             }
         })
+
+        return response;
     }
 
     async signUp(body) {
+        const email = body.email;
+        const profile = body.profile;
+
         const response = await this.prisma.user.create({
             data: {
-                email: body.email,
-                name: body.name,
+                email: email,
+                profile: {
+                    create: profile
+                }
             },
         });
 

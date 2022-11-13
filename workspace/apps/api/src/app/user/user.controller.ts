@@ -28,9 +28,9 @@ export class UserController {
         return this.userService.deleteUser(params);
     }
 
-    @Patch(':id')
-    updateUser(@Param() params, @Body() body) {
-        return this.userService.updateUser(params, body);
+    @Patch('/profile/:id')
+    updateUserProfile(@Param() params, @Body() body) {
+        return this.userService.updateUserProfile(params, body);
     }
 
     @Post('/signup')
