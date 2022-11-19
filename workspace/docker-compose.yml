@@ -38,6 +38,7 @@ services:
     image: client:nx-dev
     ports:
       - 80:80
+      - 443:443
     environment:
       NODE_ENV: "development"
       PORT: 4900
