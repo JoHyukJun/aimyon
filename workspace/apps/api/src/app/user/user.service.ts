@@ -80,9 +80,8 @@ export class UserService {
     async signUp(body: CreateUserDto) {
         const userData = body;
 
-        console.log(userData);
-        const email = body.email;
-        const profile = body.profile;
+        const email = userData.email;
+        const profile = userData.profile;
 
         const response = await this.prisma.user.create({
             data: {

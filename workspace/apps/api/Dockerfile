@@ -12,4 +12,6 @@ WORKDIR /app
 COPY --from=builder /app/builder ./
 ENV NODE_ENV=$NODE_ENV
 
+RUN yarn prisma:generate
+
 CMD ["node", "./dist/apps/api/main.js"]
