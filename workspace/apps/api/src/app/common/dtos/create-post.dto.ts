@@ -14,3 +14,18 @@ export class CreatePostDto {
     @IsBoolean()
     published: boolean
 }
+
+export class UpdatePostDto {
+    @IsNotEmpty()
+    slug: string;
+
+    @IsNotEmpty()
+    @IsString()
+    title: string;
+
+    @IsString()
+    body: string;
+
+    @IsBoolean()
+    published: boolean
+}
