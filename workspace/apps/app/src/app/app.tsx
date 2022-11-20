@@ -8,10 +8,6 @@ export function App() {
   return (
     <>
       <div />
-
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
       <br />
       <hr />
       <br />
@@ -30,16 +26,8 @@ export function App() {
       </div>
 
       <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              <Link to="/test"></Link>
-            </div>
-          }
-        />
+        <Route path="/robots.txt" />
       </Routes>
-      {/* END: routes */}
     </>
   );
 }
