@@ -90,6 +90,7 @@ export class UserService {
                     create: profile
                 }
             },
+            include: { profile: true }
         });
 
         return response;

@@ -6,7 +6,9 @@ export class BoardService {
     constructor(private prisma: PrismaService) {}
 
     async getPostAll() {
-        return await this.prisma.post.findMany();
+        return await this.prisma.post.findMany({
+            include: { user: true }
+        });
     }
 
     async updatePost(params, body) {
@@ -37,22 +39,17 @@ export class BoardService {
     }
 
     async createPost(body) {
-        // const response = await this.prisma.post.create({
-        //     data: {
-        //         slug: body.slug,
-        //         title: body.title,
-        //         body: body.body,
-        //         published: body.published,
-        //         user: {
-        //             connect: {
-        //                 where: { email: body.email }
-        //             }
-        //         },
-        //     }
-        // });
+        const response = await this.prisma.post.create({
+            data: {
+                slug: body.slug,
+                title: body.title,
+                body: body.body,
+                published: body.published,
+                userId: body.userId
+            },
+            include: { user: true }
+        });
 
-        // return response;
-
-        return '';
+        return response;
     }
 }
