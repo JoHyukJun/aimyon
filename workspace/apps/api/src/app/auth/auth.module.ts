@@ -5,7 +5,7 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { jwtConstants } from './constants/constants';
+import { jwtConstants } from './constants/auth.constants';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 
