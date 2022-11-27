@@ -21,15 +21,18 @@ export class FeedService {
     async updateFeed(params, updateFeedDto) {
         try {
             const id = params.id;
-            const updateData = updateFeedDto;
+            const updateData = {
+                title: updateFeedDto.title,
+                body: updateFeedDto.body,
+                provider: updateFeedDto.provider,
+                postedAt: updateFeedDto.postedAt
+            };
 
             const response = await this.prisma.feed.update({
                 where: {
                     id: id
                 },
-                data: {
-
-                }
+                data: updateData
             });
 
             return response;

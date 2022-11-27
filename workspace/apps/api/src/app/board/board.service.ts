@@ -21,14 +21,18 @@ export class BoardService {
     async updatePost(params, updatePostDto) {
         try {
             const id = params.id;
-            const updateData = updatePostDto;
+            const updateData = {
+                slug: updatePostDto.slug,
+                title: updatePostDto.title,
+                body: updatePostDto.body,
+                published: updatePostDto.published
+            };
 
             const response = await this.prisma.post.update({
                 where: {
                     id: id
                 },
-                data: {
-                }
+                data: updateData
             });
 
             return response;
@@ -55,15 +59,15 @@ export class BoardService {
         }
     }
 
-    async createPost(body) {
+    async createPost(createPostDto) {
         try {
             const response = await this.prisma.post.create({
                 data: {
-                    slug: body.slug,
-                    title: body.title,
-                    body: body.body,
-                    published: body.published,
-                    userId: body.userId
+                    slug: createPostDto.slug,
+                    title: createPostDto.title,
+                    body: createPostDto.body,
+                    published: createPostDto.published,
+                    userId: createPostDto.userId
                 },
                 include: { user: true }
             });

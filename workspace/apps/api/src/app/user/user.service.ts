@@ -73,23 +73,12 @@ export class UserService {
         try {
             const id = params.id;
 
-            const profileData = await this.prisma.profile.delete({
-                where: {
-                    userId: id
-                }
-            })
-
-            const userData = await this.prisma.user.delete({
+            const response = await this.prisma.user.delete({
                 where: {
                     id: id
                 }
             });
 
-            const response = {
-                user: userData,
-                profile: profileData
-            }
-
             return response;
         }
         catch(e) {
@@ -97,18 +86,18 @@ export class UserService {
         }
     }
 
-    async updateUserProfile(params, body) {
+    async updateUserProfile(params, updateProfileDto) {
         try {
             const id = params.id;
-            const updateData = body;
+            const updateData = {
+                name: updateProfileDto.name
+            };
 
             const response = await this.prisma.profile.update({
                 where: {
                     userId: id
                 },
-                data: {
-                    name: updateData.name
-                }
+                data: updateData
             })
 
             return response;
@@ -118,9 +107,9 @@ export class UserService {
         }
     }
 
-    async signUp(body: CreateUserDto) {
+    async signUp(createUserDto: CreateUserDto) {
         try {
-            const userData = body;
+            const userData = createUserDto;
 
             const email = userData.email;
             const password = userData.password;

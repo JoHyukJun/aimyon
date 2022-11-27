@@ -34,12 +34,12 @@ export class UserController {
     }
 
     @Patch('/profile/:id')
-    updateUserProfile(@Param() params, @Body() body: UpdateProfileDto) {
-        return this.userService.updateUserProfile(params, body);
+    updateUserProfile(@Param() params, @Body() updateProfileDto: UpdateProfileDto) {
+        return this.userService.updateUserProfile(params, updateProfileDto);
     }
 
     @Post('/signup')
-    createUser(@Body() body: CreateUserDto) {
-        return this.userService.signUp(body);
+    createUser(@Body() createUserDto: CreateUserDto) {
+        return this.userService.signUp(createUserDto);
     }
 }
