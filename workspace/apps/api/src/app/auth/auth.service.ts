@@ -1,4 +1,4 @@
-import { HttpException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
@@ -12,19 +12,25 @@ export class AuthService {
         private jwtService: JwtService
     ) {}
 
-    async validateUser(email: string, pass: string) {
-        const user = await this.userService.getUserByEmail(email);
-        
-        const saltOrRounds = 10;
-        const hasedPassword = await bcrypt.hash(pass, saltOrRounds);
-        console.log(hasedPassword);
+    private async verifyPassword(password: string, hashedPassword: string) {
+        const isValidPassword = await bcrypt.compair(password, hashedPassword);
 
-        if (user && user.password === hasedPassword) {
+        if (!isValidPassword) {
+            throw new BadRequestException();
+        }
+    }
+
+    async validateUser(email: string, pass: string) {
+        try {
+            const user = await this.userService.getUserByEmail(email);
+            const isValidUser = await this.verifyPassword(pass, user.password);
+
             const { password, ...result } = user;
 
             return result;
+
         }
-        else {
+        catch(e) {
             throw new UnauthorizedException();
         }
     }
@@ -36,5 +42,9 @@ export class AuthService {
         return {
             access_token: this.jwtService.sign(payload),
         };
+    }
+
+    async logOut() {
+        const response = `Authentication=; HttpOnly; Path=/; Max-Age=0`;
     }
 }
