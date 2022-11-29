@@ -192,8 +192,6 @@ Project Link: [https://github.com/JoHyukJun/aimyon](https://github.com/JoHyukJun
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
 * [Nestjs](https://nestjs.com)
 * [Prisma](https://www.prisma.io)
 * [MongoDB](https://www.mongodb.com)
