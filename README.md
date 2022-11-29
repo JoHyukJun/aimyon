@@ -1,7 +1,7 @@
 <a name="readme-top"></a>
 
 
-
+[![Activity][activity-shield]][activity-url]
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -205,6 +205,8 @@ Project Link: [https://github.com/JoHyukJun/aimyon](https://github.com/JoHyukJun
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/JoHyukJun/aimyon.svg?style=for-the-badge
 [contributors-url]: https://github.com/JoHyukJun/aimyon/graphs/contributors
+[activity-shield]: https://img.shields.io/github/commit-activity/m/JoHyukJun/aimyon.svg?style=for-the-badge
+[activity-url]: https://github.com/JoHyukJun/aimyon/pulse
 [forks-shield]: https://img.shields.io/github/forks/JoHyukJun/aimyon.svg?style=for-the-badge
 [forks-url]: https://github.com/JoHyukJun/aimyon/network/members
 [stars-shield]: https://img.shields.io/github/stars/JoHyukJun/aimyon.svg?style=for-the-badge
