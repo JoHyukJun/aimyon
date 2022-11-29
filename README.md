@@ -14,7 +14,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/JoHyukJun/aimyon">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/logo.png" alt="Logo" width="360" height="360">
   </a>
 
   <h3 align="center">aimyon</h3>
@@ -85,7 +85,9 @@ We are developing a website production and open source project that everyone can
 
 
 * [![Nest][Nestjs]][Nest-url]
+* [![MongoDB][MongoDB]][MongoDB-url]
 * [![React][React.js]][React-url]
+* [![Nginx][Nginx]][Nginx-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -121,6 +123,13 @@ Perform the following procedure to install the required package.
    yarn install
    ```
 
+### Docker
+* Dev
+   ```sh
+   docker-compose -f docker-compose.dev.yml up
+   ```
+
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -128,7 +137,7 @@ Perform the following procedure to install the required package.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-_For more examples, please refer to the [Documentation](https://aimyon.com/v1/api/documents)_
+_For more examples, please refer to the [Documentation](https://aimyon.io/v1/api/documents)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -160,8 +169,21 @@ If you have a suggestion that would make this better, please fork the repo and c
 Don't forget to give the project a star! Thanks again!
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/amazin-feature`)
+2. Create your Feature Branch (`git checkout -b feature/amazing-feature`)
 3. Commit your Changes (`git commit -m 'feat: Add some amazing-feature'`)
+* commit message
+  ```git
+  <type>[optional scope]: <description>
+  
+  [optional body]
+
+  [optional footer(s)]
+  ```
+* commit type
+  ```git
+  - feat: a commit of the type feat introduces a new feature to the codebase
+  - fix: a commit of the type fix patches a bug in your codebase
+  ```
 4. Push to the Branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
@@ -220,3 +242,7 @@ Project Link: [https://github.com/JoHyukJun/aimyon](https://github.com/JoHyukJun
 [Nest-url]: https://nestjs.com/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
+[Nginx]: https://img.shields.io/badge/nginx-000000?style=for-the-badge&logo=nginx&logoColor=white
+[Nginx-url]: https://www.nginx.com/
+[MongoDB]: https://img.shields.io/badge/mongodb-000000?style=for-the-badge&logo=mongodb&logoColor=white
+[MongoDB-url]: https://www.mongodb.com
