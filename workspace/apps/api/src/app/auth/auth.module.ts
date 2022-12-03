@@ -6,7 +6,8 @@ import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { jwtConstants } from './constants/auth.constants';
-import { JwtStrategy } from './strategies/jwt.strategy';
+import { JwtAccessTokenStrategy } from './strategies/jwt-accessToekn.strategy';
+import { JwtRefreshTokenStrategy } from './strategies/jwt-refreshToken.stratege';
 import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
@@ -14,18 +15,14 @@ import { LocalStrategy } from './strategies/local.strategy';
     PrismaModule,
     UserModule,
     PassportModule,
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: {
-        expiresIn: '180s'
-      },
-    }),
+    JwtModule.register({}),
   ],
   controllers: [AuthController],
   providers: [
     AuthService,
     LocalStrategy,
-    JwtStrategy
+    JwtAccessTokenStrategy,
+    JwtRefreshTokenStrategy
   ]
 })
 export class AuthModule {}
