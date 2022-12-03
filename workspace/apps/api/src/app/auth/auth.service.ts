@@ -5,7 +5,7 @@ import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../common/dtos/user.dto';
 import * as bcrypt from 'bcrypt';
 import { AuthDto } from '../common/dtos/auth.dto';
-import { jwtConstants } from "../common/constants/auth.constants";
+import { constants } from "../common/constants/auth.constants";
 
 @Injectable()
 export class AuthService {
@@ -50,7 +50,7 @@ export class AuthService {
                         email: email
                     },
                     {
-                        secret: jwtConstants.ACCESS_SECRET,
+                        secret: constants.ACCESS_SECRET,
                         expiresIn: '20m',
                     },
                 ),
@@ -60,7 +60,7 @@ export class AuthService {
                         email: email
                     },
                     {
-                        secret: jwtConstants.REFRESH_SECRET,
+                        secret: constants.REFRESH_SECRET,
                         expiresIn: '10d',
                     },
                 ),
