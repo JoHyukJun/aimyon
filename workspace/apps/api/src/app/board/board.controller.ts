@@ -1,6 +1,6 @@
 import { Controller, Get, UseInterceptors, UseFilters, Patch } from '@nestjs/common';
 import { Delete, Param, Post, Req, Body } from '@nestjs/common/decorators';
-import { UpdatePostDto } from '../common/dtos/create-post.dto';
+import { UpdatePostDto } from '../common/dtos/post.dto';
 import { HttpExceptionFilter } from '../common/exceptions/http-exception.filter';
 import { TransformInterceptor } from '../common/interceptors/transform.interceptor';
 import { BoardService } from './board.service';

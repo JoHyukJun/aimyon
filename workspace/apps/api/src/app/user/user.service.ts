@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { CreateUserDto } from '../common/dtos/create-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
+import { UpdateUserDto } from '../common/dtos/user.dto';
 
 @Injectable()
 export class UserService {
@@ -20,17 +20,17 @@ export class UserService {
         }
     }
 
-    async getUserById(params) {
+    async getUserById(userId) {
         try {
-            const id = params.id;
+            const id = userId;
 
-        const response = await this.prisma.user.findUnique({
-            where: {
-                id: id
-            }
-        });
+            const response = await this.prisma.user.findUnique({
+                where: {
+                    id: id
+                }
+            });
 
-        return response;
+            return response;
         }
         catch(e) {
             throw new NotFoundException();
@@ -86,6 +86,27 @@ export class UserService {
         }
     }
 
+    async updateUser(userId: string, updateUserDto: UpdateUserDto) {
+        try {
+            const id = userId;
+            const updateData = {
+                refreshToken: updateUserDto.refreshToken
+            };
+
+            const response = await this.prisma.user.update({
+                where: {
+                    id: id
+                },
+                data: updateData
+            })
+
+            return response;
+        }
+        catch(e) {
+            throw new NotFoundException();
+        }
+    }
+
     async updateUserProfile(params, updateProfileDto) {
         try {
             const id = params.id;
@@ -104,35 +125,6 @@ export class UserService {
         }
         catch(e) {
             throw new NotFoundException();
-        }
-    }
-
-    async signUp(createUserDto: CreateUserDto) {
-        try {
-            const userData = createUserDto;
-
-            const email = userData.email;
-            const password = userData.password;
-            const profile = userData.profile;
-
-            const saltOrRounds = 10;
-            const hasedPassword = await bcrypt.hash(password, saltOrRounds);
-
-            const response = await this.prisma.user.create({
-                data: {
-                    email: email,
-                    password: hasedPassword,
-                    profile: {
-                        create: profile
-                    }
-                },
-                include: { profile: true }
-            });
-
-            return response;
-        }
-        catch(e) {
-            throw new BadRequestException();
         }
     }
 }

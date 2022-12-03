@@ -1,6 +1,6 @@
 import { Controller, Get, UseInterceptors, UseFilters } from '@nestjs/common';
 import { Body, Delete, Param, Patch, Post, Req } from '@nestjs/common/decorators';
-import { CreateUserDto, UpdateProfileDto } from '../common/dtos/create-user.dto';
+import { CreateUserDto, UpdateProfileDto } from '../common/dtos/user.dto';
 import { HttpExceptionFilter } from '../common/exceptions/http-exception.filter';
 import { TransformInterceptor } from '../common/interceptors/transform.interceptor';
 import { UserService } from './user.service';
@@ -36,10 +36,5 @@ export class UserController {
     @Patch('/profile/:id')
     updateUserProfile(@Param() params, @Body() updateProfileDto: UpdateProfileDto) {
         return this.userService.updateUserProfile(params, updateProfileDto);
-    }
-
-    @Post('/signup')
-    createUser(@Body() createUserDto: CreateUserDto) {
-        return this.userService.signUp(createUserDto);
     }
 }
