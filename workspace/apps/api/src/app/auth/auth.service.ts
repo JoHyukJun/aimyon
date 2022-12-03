@@ -5,7 +5,7 @@ import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../common/dtos/user.dto';
 import * as bcrypt from 'bcrypt';
 import { AuthDto } from '../common/dtos/auth.dto';
-import { jwtConstants } from "./constants/auth.constants";
+import { jwtConstants } from "../common/constants/auth.constants";
 
 @Injectable()
 export class AuthService {
