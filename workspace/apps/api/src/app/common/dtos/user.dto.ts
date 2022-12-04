@@ -26,13 +26,13 @@ export class CreateUserDto {
 
 export class UpdateUserDto {
     @IsString()
+    name: string;
+
+    @IsString()
     refreshToken: string;
 }
 
 export class UpdateProfileDto {
     @IsString()
     name: string;
-
-    @IsString()
-    refreshToken: string;
 }

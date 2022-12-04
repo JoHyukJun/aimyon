@@ -9,9 +9,34 @@ export class UserService {
         private prisma: PrismaService
     ) {}
 
+    private excludeFieldsArray<User, Key extends keyof User>(
+        users: User[],
+        keys: Key[]
+      ): Omit<User[], Key>{
+        for (const user of users) {
+            for (const key of keys) {
+                delete user[key]
+              }
+        }
+
+        return users;
+    }
+
+    private excludeFieldsObject<User, Key extends keyof User>(
+        user: User,
+        keys: Key[]
+      ): Omit<User, Key>{
+        for (const key of keys) {
+            delete user[key]
+        }
+
+        return user;
+    }
+
     async getUserAll() {
         try {
-            const response = await this.prisma.user.findMany();
+            const users = await this.prisma.user.findMany();
+            const response = this.excludeFieldsArray(users, ['password']);
 
             return response;
         }
@@ -24,11 +49,13 @@ export class UserService {
         try {
             const id = userId;
 
-            const response = await this.prisma.user.findUnique({
+            const user = await this.prisma.user.findUnique({
                 where: {
                     id: id
                 }
             });
+
+            const response = this.excludeFieldsObject(user, ['password']);
 
             return response;
         }
@@ -39,11 +66,13 @@ export class UserService {
 
     async getUserByEmail(email: string) {
         try {
-            const response = await this.prisma.user.findUnique({
+            const user = await this.prisma.user.findUnique({
                 where: {
                     email: email
                 }
             });
+
+            const response = this.excludeFieldsObject(user, ['password']);
     
             return response;
         }
@@ -73,11 +102,13 @@ export class UserService {
         try {
             const id = params.id;
 
-            const response = await this.prisma.user.delete({
+            const user = await this.prisma.user.delete({
                 where: {
                     id: id
                 }
             });
+
+            const response = this.excludeFieldsObject(user, ['password']);
 
             return response;
         }
@@ -90,15 +121,18 @@ export class UserService {
         try {
             const id = userId;
             const updateData = {
+                name: updateUserDto.name,
                 refreshToken: updateUserDto.refreshToken
             };
 
-            const response = await this.prisma.user.update({
+            const user = await this.prisma.user.update({
                 where: {
                     id: id
                 },
                 data: updateData
             })
+
+            const response = this.excludeFieldsObject(user, ['password']);
 
             return response;
         }
