@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { CreatePostDto, UpdatePostDto } from '../common/dtos/post.dto';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -8,19 +9,50 @@ export class BoardService {
     async getPostAll() {
         try {
             const response = await this.prisma.post.findMany({
-                include: { user: true }
             });
     
             return response;
         }
         catch(e) {
-            throw new NotFoundException();
+            throw new NotFoundException(e);
         }
     }
 
-    async updatePost(params, updatePostDto) {
+    async getPostById(postId: string) {
         try {
-            const id = params.id;
+            const response = await this.prisma.post.findUnique({
+                where: {
+                    id: postId
+                }
+            });
+
+            return response;
+        }
+        catch(e) {
+            throw new NotFoundException(e);
+        }
+    }
+
+    async getPostByUser(userId: string) {
+        try {
+            const response = await this.prisma.post.findMany({
+                where: {
+                    userId: userId
+                }
+            });
+
+            console.log('etst');
+
+            return response;
+        }
+        catch(e) {
+            throw new NotFoundException(e);
+        }
+    }
+
+    async updatePost(postId: string, updatePostDto: UpdatePostDto) {
+        try {
+            const id = postId;
             const updateData = {
                 slug: updatePostDto.slug,
                 title: updatePostDto.title,
@@ -38,13 +70,13 @@ export class BoardService {
             return response;
         }
         catch(e) {
-            throw new BadRequestException();
+            throw new BadRequestException(e);
         }
     }
 
-    async deletePost(params) {
+    async deletePost(postId: string) {
         try {
-            const id = params.id;
+            const id = postId;
 
             const response = await this.prisma.post.delete({
                 where: {
@@ -55,27 +87,23 @@ export class BoardService {
             return response;
         }
         catch(e) {
-            throw new NotFoundException();
+            throw new NotFoundException(e);
         }
     }
 
-    async createPost(createPostDto) {
+    async createPost(createPostDto: CreatePostDto, userId: string) {
         try {
             const response = await this.prisma.post.create({
                 data: {
-                    slug: createPostDto.slug,
-                    title: createPostDto.title,
-                    body: createPostDto.body,
-                    published: createPostDto.published,
-                    userId: createPostDto.userId
+                    ...createPostDto,
+                    userId: userId
                 },
-                include: { user: true }
             });
-    
+
             return response;
         }
         catch(e) {
-            throw new BadRequestException();
+            throw new BadRequestException(e);
         }
     }
 }

@@ -20,7 +20,7 @@ export class UserService {
         }
     }
 
-    async getUserById(userId) {
+    async getUserById(userId: string) {
         try {
             const id = userId;
 

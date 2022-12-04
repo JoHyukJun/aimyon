@@ -19,8 +19,9 @@ export class UserController {
     }
 
     @Get(':id')
-    getUserById(@Param() params) {
-        return this.userService.getUserById(params);
+    getUserById(@Param('id') userId: string) {
+        console.log(userId);
+        return this.userService.getUserById(userId);
     }
 
     @Get('/profile/:id')

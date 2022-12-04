@@ -6,6 +6,7 @@ import { CreateUserDto } from '../common/dtos/user.dto';
 import * as bcrypt from 'bcrypt';
 import { AuthDto } from '../common/dtos/auth.dto';
 import { constants } from "../common/constants/auth.constants";
+import { exceptionMessage } from '../common/exceptions/exception.message';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,7 @@ export class AuthService {
         const isValidPassword = await bcrypt.compare(password, hashedPassword);
 
         if (!isValidPassword) {
-            throw new BadRequestException();
+            throw new BadRequestException(exceptionMessage.INVALID_USER_PASSWORD);
         }
     }
 
