@@ -32,7 +32,4 @@ export class UpdateUserDto {
 export class UpdateProfileDto {
     @IsString()
     name: string;
-
-    @IsString()
-    refreshToken: string;
 }

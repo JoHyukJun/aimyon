@@ -5,7 +5,8 @@ import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../common/dtos/user.dto';
 import * as bcrypt from 'bcrypt';
 import { AuthDto } from '../common/dtos/auth.dto';
-import { jwtConstants } from "../common/constants/auth.constants";
+import { constants } from "../common/constants/auth.constants";
+import { exceptionMessage } from '../common/exceptions/exception.message';
 
 @Injectable()
 export class AuthService {
@@ -19,8 +20,10 @@ export class AuthService {
         const isValidPassword = await bcrypt.compare(password, hashedPassword);
 
         if (!isValidPassword) {
-            throw new BadRequestException();
+            throw new BadRequestException(exceptionMessage.INVALID_USER_PASSWORD);
         }
+
+        return isValidPassword;
     }
 
     async validateUser(authDto: AuthDto) {
@@ -50,8 +53,8 @@ export class AuthService {
                         email: email
                     },
                     {
-                        secret: jwtConstants.ACCESS_SECRET,
-                        expiresIn: '20m',
+                        secret: constants.ACCESS_SECRET,
+                        expiresIn: '1d',
                     },
                 ),
                 this.jwtService.signAsync(
@@ -60,8 +63,8 @@ export class AuthService {
                         email: email
                     },
                     {
-                        secret: jwtConstants.REFRESH_SECRET,
-                        expiresIn: '10d',
+                        secret: constants.REFRESH_SECRET,
+                        expiresIn: '30d',
                     },
                 ),
             ]);
@@ -113,7 +116,6 @@ export class AuthService {
 
     async signIn(authDto: AuthDto) {
         try {
-            console.log(authDto);
             const user = await this.validateUser(authDto);
             const tokens = await this.getTokens(user.id, user.email);
             const updateRefreshToken = await this.updateRefreshToken(user.id, tokens.refreshToken);
@@ -150,7 +152,6 @@ export class AuthService {
 
             const tokens = await this.getTokens(user.id, user.email);
             const updateRefreshToken = await this.updateRefreshToken(user.id, tokens.refreshToken);
-
             const response = tokens;
 
             return response;
@@ -165,7 +166,8 @@ export class AuthService {
             const updateData = {
                 refreshToken: null
             };
-            const { password, ...response} = await this.userService.updateUser(userId, updateData);
+
+            const response = await this.userService.updateUser(userId, updateData);
     
             return response;
         }

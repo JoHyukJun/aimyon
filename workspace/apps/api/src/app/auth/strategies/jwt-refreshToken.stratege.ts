@@ -2,7 +2,7 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 import { PassportStrategy } from "@nestjs/passport";
 import { Injectable } from "@nestjs/common";
 import { Request } from 'express';
-import { jwtConstants } from "../../common/constants/auth.constants";
+import { constants } from "../../common/constants/auth.constants";
 
 @Injectable()
 export class JwtRefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
@@ -12,7 +12,7 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(Strategy, 'jwt-ref
             passwordField: 'password',
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpriation: false,
-            secretOrKey: jwtConstants.REFRESH_SECRET,
+            secretOrKey: constants.REFRESH_SECRET,
             passReqToCallback: true,
         });
     }
