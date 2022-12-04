@@ -22,6 +22,8 @@ export class AuthService {
         if (!isValidPassword) {
             throw new BadRequestException(exceptionMessage.INVALID_USER_PASSWORD);
         }
+
+        return isValidPassword;
     }
 
     async validateUser(authDto: AuthDto) {
@@ -52,7 +54,7 @@ export class AuthService {
                     },
                     {
                         secret: constants.ACCESS_SECRET,
-                        expiresIn: '20m',
+                        expiresIn: '1d',
                     },
                 ),
                 this.jwtService.signAsync(
@@ -62,7 +64,7 @@ export class AuthService {
                     },
                     {
                         secret: constants.REFRESH_SECRET,
-                        expiresIn: '10d',
+                        expiresIn: '30d',
                     },
                 ),
             ]);
@@ -114,7 +116,6 @@ export class AuthService {
 
     async signIn(authDto: AuthDto) {
         try {
-            console.log(authDto);
             const user = await this.validateUser(authDto);
             const tokens = await this.getTokens(user.id, user.email);
             const updateRefreshToken = await this.updateRefreshToken(user.id, tokens.refreshToken);
@@ -151,7 +152,6 @@ export class AuthService {
 
             const tokens = await this.getTokens(user.id, user.email);
             const updateRefreshToken = await this.updateRefreshToken(user.id, tokens.refreshToken);
-
             const response = tokens;
 
             return response;
@@ -166,7 +166,8 @@ export class AuthService {
             const updateData = {
                 refreshToken: null
             };
-            const { password, ...response} = await this.userService.updateUser(userId, updateData);
+
+            const response = await this.userService.updateUser(userId, updateData);
     
             return response;
         }

@@ -41,8 +41,6 @@ export class BoardService {
                 }
             });
 
-            console.log('etst');
-
             return response;
         }
         catch(e) {

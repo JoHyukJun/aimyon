@@ -26,9 +26,6 @@ export class CreateUserDto {
 
 export class UpdateUserDto {
     @IsString()
-    name: string;
-
-    @IsString()
     refreshToken: string;
 }
 

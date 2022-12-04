@@ -72,7 +72,7 @@ export class UserService {
                 }
             });
 
-            const response = this.excludeFieldsObject(user, ['password']);
+            const response = user;
     
             return response;
         }
@@ -121,7 +121,6 @@ export class UserService {
         try {
             const id = userId;
             const updateData = {
-                name: updateUserDto.name,
                 refreshToken: updateUserDto.refreshToken
             };
 
