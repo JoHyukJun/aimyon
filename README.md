@@ -20,7 +20,7 @@
   <h3 align="center">aimyon</h3>
 
   <p align="center">
-    An aimyon community web service project!
+    A wiki archive web service project
     <br />
     <a href="https://github.com/JoHyukJun/aimyon"><strong>Explore the docs »</strong></a>
     <br />
@@ -240,7 +240,7 @@ Project Link: [https://github.com/JoHyukJun/aimyon](https://github.com/JoHyukJun
 [product-screenshot]: images/screenshot.png
 [Nestjs]: https://img.shields.io/badge/nestjs-000000?style=for-the-badge&logo=nestjs&logoColor=white
 [Nest-url]: https://nestjs.com/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React.js]: https://img.shields.io/badge/React-000000?style=for-the-badge&logo=react&logoColor=white
 [React-url]: https://reactjs.org/
 [Nginx]: https://img.shields.io/badge/nginx-000000?style=for-the-badge&logo=nginx&logoColor=white
 [Nginx-url]: https://www.nginx.com/
