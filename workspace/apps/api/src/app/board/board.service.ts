@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { CreatePostDto, UpdatePostDto } from '../common/dtos/post.dto';
+import { CreateCommentDto, CreatePostDto, UpdatePostDto } from '../common/dtos/post.dto';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -96,6 +96,23 @@ export class BoardService {
                     ...createPostDto,
                     userId: userId
                 },
+            });
+
+            return response;
+        }
+        catch(e) {
+            throw new BadRequestException(e);
+        }
+    }
+
+    async createComment(createCommentDto: CreateCommentDto, userId: string) {
+        try {
+            const userName = '';
+            const response = await this.prisma.comment.create({
+                data: {
+                    ...createCommentDto,
+                    name: userName
+                }
             });
 
             return response;

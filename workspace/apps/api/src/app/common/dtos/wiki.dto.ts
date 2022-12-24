@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString, IsNumber, IsBoolean } from "class-validator";
 
-export class CreatePostDto {
+export class CreateWikiDto {
     @IsNotEmpty()
     slug: string;
 
@@ -15,7 +15,7 @@ export class CreatePostDto {
     published: boolean
 }
 
-export class UpdatePostDto {
+export class UpdateWikiDto {
     @IsNotEmpty()
     slug: string;
 
@@ -25,18 +25,6 @@ export class UpdatePostDto {
 
     @IsString()
     body: string;
-
-    @IsBoolean()
-    published: boolean
-}
-
-export class CreateCommentDto {
-    @IsNotEmpty()
-    @IsString()
-    postId: string;
-
-    @IsString()
-    comment: string;
 
     @IsBoolean()
     published: boolean

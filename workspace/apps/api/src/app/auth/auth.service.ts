@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { AuthDto } from '../common/dtos/auth.dto';
 import { constants } from "../common/constants/auth.constants";
 import { exceptionMessage } from '../common/exceptions/exception.message';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -44,13 +45,14 @@ export class AuthService {
         }
     }
 
-    async getTokens(userId: string, email: string) {
+    async getTokens(userId: string, email: string, role) {
         try {
             const [accessToken, refreshToken] = await Promise.all([
                 this.jwtService.signAsync(
                     {
                         sub: userId,
-                        email: email
+                        email: email,
+                        role: role
                     },
                     {
                         secret: constants.ACCESS_SECRET,
@@ -60,7 +62,8 @@ export class AuthService {
                 this.jwtService.signAsync(
                     {
                         sub: userId,
-                        email: email
+                        email: email,
+                        role: role
                     },
                     {
                         secret: constants.REFRESH_SECRET,
@@ -85,7 +88,7 @@ export class AuthService {
         try {
             const user = await this.userService.getUserById(userId);
             const isValidRefreshToken = await bcrypt.compare(refreshToken, user.refreshToken);
-            const tokens = await this.getTokens(user.id, user.email);
+            const tokens = await this.getTokens(user.id, user.email, user.role);
             const updateRefreshToken = await this.updateRefreshToken(user.id, tokens.refreshToken);
 
             const response = tokens;
@@ -117,7 +120,7 @@ export class AuthService {
     async signIn(authDto: AuthDto) {
         try {
             const user = await this.validateUser(authDto);
-            const tokens = await this.getTokens(user.id, user.email);
+            const tokens = await this.getTokens(user.id, user.email, user.role);
             const updateRefreshToken = await this.updateRefreshToken(user.id, tokens.refreshToken);
 
             const response = tokens;
@@ -150,7 +153,7 @@ export class AuthService {
                 include: { profile: true }
             });
 
-            const tokens = await this.getTokens(user.id, user.email);
+            const tokens = await this.getTokens(user.id, user.email, user.role);
             const updateRefreshToken = await this.updateRefreshToken(user.id, tokens.refreshToken);
             const response = tokens;
 
