@@ -104,4 +104,6 @@ export class BoardService {
             throw new BadRequestException(e);
         }
     }
+
+    async createComment
 }

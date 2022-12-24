@@ -16,6 +16,19 @@ enum Role {
   USER
 }
 
+enum WikiStatus {
+  PENDING
+  REJECTED
+  APPROVED
+}
+
+enum WikiRequestType {
+  REQEUST
+  APPROVE
+  REJECTE
+  ABSTENTION
+}
+
 model User {
   id            String      @id @default(auto()) @map("_id") @db.ObjectId
   email         String      @unique
@@ -32,7 +45,7 @@ model Profile {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId      String      @unique
+  userId      String      @unique @db.ObjectId
 }
 
 model Feed {
@@ -44,6 +57,31 @@ model Feed {
   published   Boolean     @default(false)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+}
+
+model Wiki {
+  id                      String      @id @default(auto()) @map("_id") @db.ObjectId
+  topic                   String
+  body                    String
+  status                  WikiStatus
+  statusHistory           WikiStatusHistory[]
+  postedAt                DateTime
+  published               Boolean     @default(false)
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
+}
+
+model WikiStatusHistory {
+  id                      String      @id @default(auto()) @map("_id") @db.ObjectId
+  name                    String
+  ip                      String
+  requestType             WikiRequestType
+  reason                  String?
+  wiki                    Wiki        @relation(fields: [wikiId], references: [id])
+  wikiId                  String      @db.ObjectId
+  published               Boolean     @default(false)
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
 }
 
 model Post {
@@ -64,6 +102,7 @@ model Comment {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   post        Post        @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   postId      String      @db.ObjectId
+  name        String
   comment     String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -73,7 +112,7 @@ model Category {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   post        Post        @relation(fields: [postId], references: [id])
   postId      String      @db.ObjectId
-  comment     String
+  category    String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 }
