@@ -19,6 +19,7 @@ export class BoardController {
         return this.boardSerive.getPostAll();
     }
 
+    @UseGuards(JwtAccessTokenAuthGuard)
     @Get(':postId')
     getPostById(@Param('postId') postId: string) {
         return this.boardSerive.getPostById(postId);

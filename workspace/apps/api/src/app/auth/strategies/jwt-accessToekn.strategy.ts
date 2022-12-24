@@ -6,6 +6,7 @@ import { constants } from "../../common/constants/auth.constants";
 type JwtPayload = {
     sub: string;
     email: string;
+    role;
 }
 
 @Injectable()
