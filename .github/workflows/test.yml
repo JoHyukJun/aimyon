@@ -2,10 +2,6 @@ name: Test
 
 on: [push, pull_request]
 
-defaults:
-  run:
-    working-directory: ./workspace
-
 jobs:
   test:
     runs-on: ${{ matrix.os }}
@@ -13,6 +9,9 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
+
+    env:
+      working-directory: ./workspace
 
     steps:
       - name: Check out Git repository
@@ -27,6 +26,7 @@ jobs:
       - name: yarn install
         run: |
           yarn install
+          working-directory: ${{ env.working-directory }}
       - name: yarn test
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
@@ -35,3 +35,4 @@ jobs:
           yarn run lint
           yarn exec tsc
           yarn test
+          working-directory: ${{ env.working-directory }}
