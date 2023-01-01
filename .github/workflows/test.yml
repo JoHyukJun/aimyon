@@ -1,6 +1,6 @@
 name: Test
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   test:
@@ -22,6 +22,7 @@ jobs:
         with:
           node-version: 16
           cache: npm
+          cache-dependency-path: ./workspace/yarn.lock
 
       - name: yarn install
         run: |
