@@ -28,7 +28,7 @@ export class WikiService {
                 data: {
                     ...createWikiDto,
                     status: 'APPROVED',
-                    postedAt: Date.now()
+                    postedAt: new Date()
                 },
             });
 
