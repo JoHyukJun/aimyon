@@ -73,7 +73,7 @@ model Wiki {
 
 model WikiStatusHistory {
   id                      String      @id @default(auto()) @map("_id") @db.ObjectId
-  name                    String
+  userId                  String      @db.ObjectId
   ip                      String
   requestType             WikiRequestType
   reason                  String?

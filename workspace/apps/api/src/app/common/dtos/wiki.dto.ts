@@ -2,12 +2,9 @@ import { IsNotEmpty, IsString, IsNumber, IsBoolean } from "class-validator";
 
 export class CreateWikiDto {
     @IsNotEmpty()
-    slug: string;
+    topic: string;
 
     @IsNotEmpty()
-    @IsString()
-    title: string;
-
     @IsString()
     body: string;
 
