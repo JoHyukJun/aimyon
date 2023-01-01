@@ -27,7 +27,7 @@ jobs:
       - name: yarn install
         run: |
           yarn install
-          working-directory: ${{ env.working-directory }}
+        working-directory: ${{ env.working-directory }}
       - name: yarn test
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
@@ -36,4 +36,4 @@ jobs:
           yarn run lint
           yarn exec tsc
           yarn test
-          working-directory: ${{ env.working-directory }}
+        working-directory: ${{ env.working-directory }}
