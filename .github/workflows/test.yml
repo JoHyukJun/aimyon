@@ -2,6 +2,10 @@ name: Test
 
 on: [push, pull_request]
 
+defaults:
+  run:
+    working-directory: ./workspace
+
 jobs:
   test:
     runs-on: ${{ matrix.os }}
@@ -9,10 +13,6 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-
-    defaults:
-      run:
-        working-directory: ./workspace
 
     steps:
       - name: Check out Git repository
