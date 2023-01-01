@@ -27,7 +27,8 @@ export class WikiService {
             const response = await this.prisma.wiki.create({
                 data: {
                     ...createWikiDto,
-                    userId: userId
+                    status: 'APPROVED',
+                    postedAt: new Date()
                 },
             });
 
