@@ -32,8 +32,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
-          yarn run package
-          yarn run lint
+          yarn package
+          yarn lint
           yarn exec tsc
           yarn test
         working-directory: ${{ env.working-directory }}
