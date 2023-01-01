@@ -10,8 +10,9 @@ jobs:
       matrix:
         os: [ubuntu-latest]
 
-    env:
-      working-directory: ./workspace
+    defaults:
+      run:
+        working-directory: ./workspace
 
     steps:
       - name: Check out Git repository
