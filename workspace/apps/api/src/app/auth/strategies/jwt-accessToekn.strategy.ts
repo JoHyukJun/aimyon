@@ -4,7 +4,7 @@ import { Injectable } from "@nestjs/common";
 import { constants } from "../../common/constants/auth.constants";
 
 type JwtPayload = {
-    sub: string;
+    id: string;
     email: string;
     role;
 }
