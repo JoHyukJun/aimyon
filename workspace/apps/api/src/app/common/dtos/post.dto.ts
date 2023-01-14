@@ -41,3 +41,15 @@ export class CreateCommentDto {
     @IsBoolean()
     published: boolean
 }
+
+export class UpdateCommentDto {
+    @IsNotEmpty()
+    @IsString()
+    postId: string;
+
+    @IsString()
+    comment: string;
+
+    @IsBoolean()
+    published: boolean
+}

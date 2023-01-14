@@ -1,10 +1,13 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { CreateCommentDto, CreatePostDto, UpdatePostDto } from '../common/dtos/post.dto';
+import { CreateCommentDto, CreatePostDto, UpdatePostDto, UpdateCommentDto } from '../common/dtos/post.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class BoardService {
-    constructor(private prisma: PrismaService) {}
+    constructor(
+        private prisma: PrismaService,
+        private userService: UserService) {}
 
     async getPostAll() {
         try {
@@ -105,13 +108,65 @@ export class BoardService {
         }
     }
 
+    async getComment(postId: string) {
+        try {
+            const response = await this.prisma.comment.findMany({
+                where: {
+                    postId: postId
+                }
+            });
+
+            return response;
+        }
+        catch(e) {
+            throw new BadRequestException(e);
+        }
+    }
+
     async createComment(createCommentDto: CreateCommentDto, userId: string) {
         try {
-            const userName = '';
+            const profileObject = await this.userService.getUserProfileById(userId);
+
+            const userName = profileObject.name;
+
             const response = await this.prisma.comment.create({
                 data: {
                     ...createCommentDto,
-                    name: userName
+                    userName: userName,
+                    userId: userId
+                }
+            });
+
+            return response;
+        }
+        catch(e) {
+            throw new BadRequestException(e);
+        }
+    }
+
+    async updateComment(commentId: string, updateCommentDto: UpdateCommentDto, userId: string) {
+        try {
+            const response = await this.prisma.comment.update({
+                where: {
+                    id: commentId
+                },
+                data: {
+                    ...updateCommentDto
+                }
+            });
+
+            return response;
+        }
+        catch(e) {
+            throw new BadRequestException(e);
+        }
+    }
+
+    async deleteComment(commentId: string) {
+        try {
+            const response = await this.prisma.comment.delete({
+                where: {
+                    id: commentId
                 }
             });
 

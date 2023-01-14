@@ -98,6 +98,21 @@ export class UserService {
         }
     }
 
+    async getUserProfileById(userId) {
+        try {
+            const response = await this.prisma.profile.findFirst({
+                where: {
+                    userId: userId
+                }
+            });
+
+            return response;
+        }
+        catch(e) {
+            throw new NotFoundException();
+        }
+    }
+
     async deleteUser(params) {
         try {
             const id = params.id;
