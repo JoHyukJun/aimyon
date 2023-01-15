@@ -2,6 +2,7 @@ import { Injectable, NotFoundException, BadRequestException, UnauthorizedExcepti
 import { CreateCommentDto, CreatePostDto, UpdatePostDto, UpdateCommentDto } from '../common/dtos/post.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserService } from '../user/user.service';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class BoardService {
@@ -12,6 +13,9 @@ export class BoardService {
     async getPostAll() {
         try {
             const response = await this.prisma.post.findMany({
+                where: {
+                    published: true
+                }
             });
     
             return response;
@@ -53,16 +57,18 @@ export class BoardService {
         }
     }
 
-    async updatePost(postId: string, updatePostDto: UpdatePostDto, userId: string) {
+    async updatePost(postId: string, updatePostDto: UpdatePostDto, user: User) {
         try {
+            const userId = user.id;
+            const userRole = user.role;
             const postObject = await this.getPostById(postId);
 
             if (!postObject) {
                 throw new BadRequestException('INVALID postId');
             }
 
-            if (postObject.userId !== userId) {
-                throw new UnauthorizedException('INVALID userId');
+            if (postObject.userId !== userId && !(userRole === 'MASTER')) {
+                throw new UnauthorizedException('Invalid user reqeust');
             }
 
             const response = await this.prisma.post.update({
@@ -81,16 +87,19 @@ export class BoardService {
         }
     }
 
-    async deletePost(postId: string, userId: string) {
+    async deletePost(postId: string, user: User) {
         try {
+            const userId = user.id;
+            const userRole = user.role;
+
             const postObject = await this.getPostById(postId);
 
             if (!postObject) {
                 throw new BadRequestException('INVALID postId');
             }
 
-            if (postObject.userId !== userId) {
-                throw new UnauthorizedException('INVALID userId');
+            if (postObject.userId !== userId && !(userRole === 'MASTER')) {
+                throw new UnauthorizedException('Invalid user reqeust');
             }
 
             const response = await this.prisma.post.delete({
@@ -106,8 +115,10 @@ export class BoardService {
         }
     }
 
-    async createPost(createPostDto: CreatePostDto, userId: string) {
+    async createPost(createPostDto: CreatePostDto, user: User) {
         try {
+            const userId = user.id;
+
             const response = await this.prisma.post.create({
                 data: {
                     ...createPostDto,
@@ -137,8 +148,9 @@ export class BoardService {
         }
     }
 
-    async createComment(createCommentDto: CreateCommentDto, userId: string) {
+    async createComment(createCommentDto: CreateCommentDto, user: User) {
         try {
+            const userId = user.id;
             const profileObject = await this.userService.getUserProfileById(userId);
 
             const userName = profileObject.name;
@@ -158,8 +170,25 @@ export class BoardService {
         }
     }
 
-    async updateComment(commentId: string, updateCommentDto: UpdateCommentDto, userId: string) {
+    async updateComment(commentId: string, updateCommentDto: UpdateCommentDto, user: User) {
         try {
+            const userId = user.id;
+            const userRole = user.role;
+
+            const commentObject = await this.prisma.comment.findUnique({
+                where: {
+                    id: commentId
+                }
+            });
+
+            if (!commentObject) {
+                throw new BadRequestException('INVALID commentId');
+            }
+
+            if (commentObject.userId !== userId && !(userRole === 'MASTER')) {
+                throw new UnauthorizedException('Invalid user reqeust');
+            }
+
             const response = await this.prisma.comment.update({
                 where: {
                     id: commentId
@@ -171,13 +200,30 @@ export class BoardService {
 
             return response;
         }
-        catch(e) {
-            throw new BadRequestException(e);
+        catch(err) {
+            throw new BadRequestException(err);
         }
     }
 
-    async deleteComment(commentId: string) {
+    async deleteComment(commentId: string, user: User) {
         try {
+            const userId = user.id;
+            const userRole = user.role;
+
+            const commentObject = await this.prisma.comment.findUnique({
+                where: {
+                    id: commentId
+                }
+            });
+
+            if (!commentObject) {
+                throw new BadRequestException('Invalid comment db info');
+            }
+
+            if (commentObject.userId !== userId && !(userRole === 'MASTER')) {
+                throw new UnauthorizedException('Invalid user reqeust');
+            }
+
             const response = await this.prisma.comment.delete({
                 where: {
                     id: commentId
@@ -186,8 +232,8 @@ export class BoardService {
 
             return response;
         }
-        catch(e) {
-            throw new BadRequestException(e);
+        catch(err) {
+            throw new BadRequestException(err);
         }
     }
 }
