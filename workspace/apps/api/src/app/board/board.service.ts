@@ -160,6 +160,20 @@ export class BoardService {
 
     async updateComment(commentId: string, updateCommentDto: UpdateCommentDto, userId: string) {
         try {
+            const commentObject = await this.prisma.comment.findUnique({
+                where: {
+                    id: commentId
+                }
+            });
+
+            if (!commentObject) {
+                throw new BadRequestException('INVALID commentId');
+            }
+
+            if (commentObject.userId !== userId) {
+                throw new UnauthorizedException('INVALID userId');
+            }
+
             const response = await this.prisma.comment.update({
                 where: {
                     id: commentId
@@ -176,8 +190,22 @@ export class BoardService {
         }
     }
 
-    async deleteComment(commentId: string) {
+    async deleteComment(commentId: string, userId: string) {
         try {
+            const commentObject = await this.prisma.comment.findUnique({
+                where: {
+                    id: commentId
+                }
+            });
+
+            if (!commentObject) {
+                throw new BadRequestException('INVALID commentId');
+            }
+
+            if (commentObject.userId !== userId) {
+                throw new UnauthorizedException('INVALID userId');
+            }
+
             const response = await this.prisma.comment.delete({
                 where: {
                     id: commentId

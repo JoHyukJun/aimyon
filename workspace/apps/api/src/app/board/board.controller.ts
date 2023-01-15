@@ -1,7 +1,7 @@
 import { Controller, Get, UseInterceptors, UseFilters, Patch, HttpException, BadRequestException } from '@nestjs/common';
 import { Delete, Param, Post, Req, Body, UseGuards } from '@nestjs/common/decorators';
 import { JwtAccessTokenAuthGuard } from '../auth/guards/jwt-accessToken.guard';
-import { CreatePostDto, UpdatePostDto } from '../common/dtos/post.dto';
+import { CreateCommentDto, CreatePostDto, UpdateCommentDto, UpdatePostDto } from '../common/dtos/post.dto';
 import { HttpExceptionFilter } from '../common/exceptions/http-exception.filter';
 import { TransformInterceptor } from '../common/interceptors/transform.interceptor';
 import { BoardService } from './board.service';
@@ -81,6 +81,47 @@ export class BoardController {
 
             return await this.boardSerive.createPost(createPostDto, userId);
 
+        }
+        catch(err) {
+            throw new BadRequestException(err);
+        }
+    }
+
+    @Post('/comment')
+    @UseGuards(JwtAccessTokenAuthGuard)
+    async createComment(@GetUser() user: User, @Body() createCommentDto: CreateCommentDto) {
+        try {
+            const userId = user.id;
+
+            return await this.boardSerive.createComment(createCommentDto, userId);
+
+        }
+        catch(err) {
+            throw new BadRequestException(err);
+        }
+    }
+
+    @Patch('/comment/:commentId')
+    @UseGuards(JwtAccessTokenAuthGuard)
+    async updateComment(@Param('commentId') commentId: string, @GetUser() user: User, @Body() updateCommentDto: UpdateCommentDto) {
+        try {
+            const userId = user.id;
+
+            return await this.boardSerive.updateComment(commentId, updateCommentDto, userId);
+
+        }
+        catch(err) {
+            throw new BadRequestException(err);
+        }
+    }
+
+    @Delete('/comment/:commentId')
+    @UseGuards(JwtAccessTokenAuthGuard)
+    async deleteComment(@Param('commentId') commentId: string, @GetUser() user: User) {
+        try {
+            const userId = user.id;
+
+            return await this.boardSerive.deleteComment(commentId, userId);
         }
         catch(err) {
             throw new BadRequestException(err);
