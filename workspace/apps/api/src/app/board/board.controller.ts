@@ -5,8 +5,9 @@ import { CreateCommentDto, CreatePostDto, UpdateCommentDto, UpdatePostDto } from
 import { HttpExceptionFilter } from '../common/exceptions/http-exception.filter';
 import { TransformInterceptor } from '../common/interceptors/transform.interceptor';
 import { BoardService } from './board.service';
-import { GetUser } from '../common/decorators/user.decorator';
+import { GetUser, Roles } from '../common/decorators/user.decorator';
 import { User } from '@prisma/client';
+import { RoleGuard } from '../auth/guards/role.guard';
 
 @Controller('board')
 @UseInterceptors(TransformInterceptor)
@@ -26,7 +27,6 @@ export class BoardController {
         }
     }
 
-    @UseGuards(JwtAccessTokenAuthGuard)
     @Get(':postId')
     async getPostById(@Param('postId') postId: string) {
         try {
@@ -51,9 +51,7 @@ export class BoardController {
     @UseGuards(JwtAccessTokenAuthGuard)
     async deletePost(@Param('postId') postId: string, @GetUser() user: User) {
         try {
-            const userId = user.id;
-
-            return await this.boardSerive.deletePost(postId, userId);
+            return await this.boardSerive.deletePost(postId, user);
         }
         catch(err) {
             throw new BadRequestException(err);
@@ -61,12 +59,10 @@ export class BoardController {
     }
 
     @Patch(':postId')
-    @UseGuards(JwtAccessTokenAuthGuard)
+    @UseGuards(JwtAccessTokenAuthGuard, RoleGuard)
     async updatePost(@Param('postId') postId: string, @Body() updatePostDto: UpdatePostDto, @GetUser() user: User) {
         try {
-            const userId = user.id;
-
-            return await this.boardSerive.updatePost(postId, updatePostDto, userId);
+            return await this.boardSerive.updatePost(postId, updatePostDto, user);
         }
         catch(err) {
             throw new BadRequestException(err);
@@ -77,9 +73,7 @@ export class BoardController {
     @UseGuards(JwtAccessTokenAuthGuard)
     async createPost(@GetUser() user: User, @Body() createPostDto: CreatePostDto) {
         try {
-            const userId = user.id;
-
-            return await this.boardSerive.createPost(createPostDto, userId);
+            return await this.boardSerive.createPost(createPostDto, user);
 
         }
         catch(err) {
@@ -91,9 +85,7 @@ export class BoardController {
     @UseGuards(JwtAccessTokenAuthGuard)
     async createComment(@GetUser() user: User, @Body() createCommentDto: CreateCommentDto) {
         try {
-            const userId = user.id;
-
-            return await this.boardSerive.createComment(createCommentDto, userId);
+            return await this.boardSerive.createComment(createCommentDto, user);
 
         }
         catch(err) {
@@ -105,9 +97,7 @@ export class BoardController {
     @UseGuards(JwtAccessTokenAuthGuard)
     async updateComment(@Param('commentId') commentId: string, @GetUser() user: User, @Body() updateCommentDto: UpdateCommentDto) {
         try {
-            const userId = user.id;
-
-            return await this.boardSerive.updateComment(commentId, updateCommentDto, userId);
+            return await this.boardSerive.updateComment(commentId, updateCommentDto, user);
 
         }
         catch(err) {
@@ -119,9 +109,7 @@ export class BoardController {
     @UseGuards(JwtAccessTokenAuthGuard)
     async deleteComment(@Param('commentId') commentId: string, @GetUser() user: User) {
         try {
-            const userId = user.id;
-
-            return await this.boardSerive.deleteComment(commentId, userId);
+            return await this.boardSerive.deleteComment(commentId, user);
         }
         catch(err) {
             throw new BadRequestException(err);
