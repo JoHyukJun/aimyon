@@ -1,4 +1,4 @@
-import { Controller, Get, UseFilters, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Controller, Get, UseFilters, UseInterceptors } from '@nestjs/common';
 import { Body, Delete, Param, Patch, Post, Req, Request, Response, UseGuards } from '@nestjs/common/decorators';
 import { AuthGuard } from '@nestjs/passport';
 import { HttpExceptionFilter } from '../common/exceptions/http-exception.filter';
@@ -22,10 +22,15 @@ export class AuthController {
     @UseGuards(JwtAccessTokenAuthGuard)
     @Get()
     async authenticate(@Request() req) {
-        const user = req.user;
-        user.password = undefined;
+        try {
+            const user = req.user;
+            user.password = undefined;
 
-        return user;
+            return user;
+        }
+        catch(err) {
+            throw new BadRequestException(err);
+        }
     }
 
     @UseGuards(JwtRefreshTokenAuthGuard)
@@ -34,7 +39,7 @@ export class AuthController {
         const userId = req.user['sub'];
         const refreshToken = req.user['refreshToken'];  
 
-        return this.authService.getRefreshToken(userId, refreshToken);
+        return await this.authService.getRefreshToken(userId, refreshToken);
     }
 
     @Post('/signin')
