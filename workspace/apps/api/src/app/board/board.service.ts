@@ -20,8 +20,8 @@ export class BoardService {
     
             return response;
         }
-        catch(e) {
-            throw new NotFoundException(e);
+        catch(err) {
+            throw new NotFoundException(err);
         }
     }
 
