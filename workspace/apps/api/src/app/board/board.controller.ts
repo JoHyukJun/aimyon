@@ -18,44 +18,24 @@ export class BoardController {
     ) {}
 
     @Get()
-    async getPostAll() {
-        try {
-            return await this.boardSerive.getPostAll();
-        }
-        catch(err) {
-            throw new BadRequestException(err);
-        }
+    getPostAll() {
+        return this.boardSerive.getPostAll();
     }
 
     @Get(':postId')
-    async getPostById(@Param('postId') postId: string) {
-        try {
-            return await this.boardSerive.getPostById(postId);
-        }
-        catch(err) {
-            throw new BadRequestException(err);
-        }
+    getPostById(@Param('postId') postId: string) {
+        return this.boardSerive.getPostById(postId);
     }
 
     @Get('/user/:userId')
-    async getPostByUser(@Param('userId') userId: string) {
-        try {
-            return await this.boardSerive.getPostByUser(userId);
-        }
-        catch(err) {
-            throw new BadRequestException(err);
-        }
+    getPostByUser(@Param('userId') userId: string) {
+        return this.boardSerive.getPostByUser(userId);
     }
 
     @Delete(':postId')
     @UseGuards(JwtAccessTokenAuthGuard)
-    async deletePost(@Param('postId') postId: string, @GetUser() user: User) {
-        try {
-            return await this.boardSerive.deletePost(postId, user);
-        }
-        catch(err) {
-            throw new BadRequestException(err);
-        }
+    deletePost(@Param('postId') postId: string, @GetUser() user: User) {
+        return  this.boardSerive.deletePost(postId, user);
     }
 
     @Patch(':postId')

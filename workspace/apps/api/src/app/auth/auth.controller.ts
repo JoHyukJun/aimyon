@@ -21,29 +21,24 @@ export class AuthController {
 
     @UseGuards(JwtAccessTokenAuthGuard)
     @Get()
-    async authenticate(@Request() req) {
-        try {
-            const user = req.user;
-            user.password = undefined;
+    authenticate(@Request() req) {
+        const user = req.user;
+        user.password = undefined;
 
-            return user;
-        }
-        catch(err) {
-            throw new BadRequestException(err);
-        }
+        return user;
     }
 
     @UseGuards(JwtRefreshTokenAuthGuard)
     @Get('/refresh')
-    async refreshToken(@Req() req) {
+    refreshToken(@Req() req) {
         const userId = req.user['sub'];
         const refreshToken = req.user['refreshToken'];  
 
-        return await this.authService.getRefreshToken(userId, refreshToken);
+        return this.authService.getRefreshToken(userId, refreshToken);
     }
 
     @Post('/signin')
-    async signIn(@Body() authDto: AuthDto) {
+    signIn(@Body() authDto: AuthDto) {
 
         return this.authService.signIn(authDto);
     }
@@ -55,7 +50,7 @@ export class AuthController {
 
     @UseGuards(JwtAccessTokenAuthGuard)
     @Get('/logout')
-    async logOut(@Request() req) {
+    logOut(@Request() req) {
         return this.authService.logOut(req.user['sub']);
     }
 }

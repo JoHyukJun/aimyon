@@ -1,3 +1,4 @@
+import { WikiRequestType } from "@prisma/client";
 import { IsNotEmpty, IsString, IsNumber, IsBoolean } from "class-validator";
 
 export class CreateWikiDto {
@@ -23,6 +24,9 @@ export class UpdateWikiDto {
     @IsString()
     body: string;
 
-    @IsBoolean()
-    published: boolean
+    @IsNotEmpty()
+    reqeustType: WikiRequestType;
+
+    @IsString()
+    reason: string;
 }

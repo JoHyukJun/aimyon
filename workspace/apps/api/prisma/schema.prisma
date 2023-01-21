@@ -61,12 +61,12 @@ model Feed {
 
 model Wiki {
   id                      String      @id @default(auto()) @map("_id") @db.ObjectId
-  topic                   String
+  topic                   String      @unique
   body                    String
   status                  WikiStatus
   statusHistory           WikiStatusHistory[]
   postedAt                DateTime
-  published               Boolean     @default(false)
+  published               Boolean     @default(true)
   createdAt               DateTime    @default(now())
   updatedAt               DateTime    @updatedAt
 }
@@ -79,7 +79,6 @@ model WikiStatusHistory {
   reason                  String?
   wiki                    Wiki        @relation(fields: [wikiId], references: [id])
   wikiId                  String      @db.ObjectId
-  published               Boolean     @default(false)
   createdAt               DateTime    @default(now())
   updatedAt               DateTime    @updatedAt
 }
