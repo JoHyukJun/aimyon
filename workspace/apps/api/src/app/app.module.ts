@@ -8,6 +8,7 @@ import { FeedModule } from './feed/feed.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { CommonModule } from './common/common.module';
+import { WikiModule } from './wiki/wiki.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CommonModule } from './common/common.module';
     PrismaModule,
     UserModule,
     CommonModule,
+    WikiModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { BadRequestException, NotFoundException } from '@nestjs/common/exceptions';
 import { CreateWikiDto, UpdateWikiDto } from '../common/dtos/wiki.dto';
+import { Http2ServerRequest } from 'http2';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class WikiService {
@@ -19,8 +21,23 @@ export class WikiService {
 
             return response;
         }
-        catch(e) {
-            throw new NotFoundException(e);
+        catch(err) {
+            throw new NotFoundException(err);
+        }
+    }
+
+    async getWikiStatusHistory(wikiId: string) {
+        try {
+            const response = await this.prisma.wikiStatusHistory.findMany({
+                where: {
+                    wikiId: wikiId
+                }
+            });
+
+            return response;
+        }
+        catch(err) {
+            throw new BadRequestException(err);
         }
     }
 
@@ -39,20 +56,30 @@ export class WikiService {
         }
     }
 
-    async createWiki(createWikiDto: CreateWikiDto) {
+    async createWiki(createWikiDto: CreateWikiDto, user: User) {
         try {
+            const userId = user.id;
+
+            const statusHistory = createWikiDto.statusHistory;
+
             const response = await this.prisma.wiki.create({
                 data: {
                     ...createWikiDto,
-                    status: 'APPROVED',
-                    postedAt: new Date()
+                    status: 'PENDING',
+                    postedAt: new Date(),
+                    statusHistory: {
+                        create: {
+                            ...statusHistory,
+                            userId: userId,
+                        }
+                    }
                 },
             });
 
             return response;
         }
-        catch(e) {
-            throw new BadRequestException(e);
+        catch(err) {
+            throw new BadRequestException(err);
         }
     }
 
