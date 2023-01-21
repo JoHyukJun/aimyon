@@ -23,9 +23,9 @@ enum WikiStatus {
 }
 
 enum WikiRequestType {
-  REQEUST
+  REQUEST
   APPROVE
-  REJECTE
+  REJECT
   ABSTENTION
 }
 
@@ -74,10 +74,9 @@ model Wiki {
 model WikiStatusHistory {
   id                      String      @id @default(auto()) @map("_id") @db.ObjectId
   userId                  String      @db.ObjectId
-  ip                      String
   requestType             WikiRequestType
   reason                  String?
-  wiki                    Wiki        @relation(fields: [wikiId], references: [id])
+  wiki                    Wiki        @relation(fields: [wikiId], references: [id], onDelete: Cascade)
   wikiId                  String      @db.ObjectId
   createdAt               DateTime    @default(now())
   updatedAt               DateTime    @updatedAt

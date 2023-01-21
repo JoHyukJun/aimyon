@@ -134,10 +134,10 @@ export class AuthService {
 
     async signUp(createUserDto: CreateUserDto) {
         try {
-            const userData = createUserDto;
+            const createUserData = createUserDto;
 
-            const password = userData.password;
-            const profile = userData.profile;
+            const password = createUserData.password;
+            const profile = createUserData.profile;
 
             const saltOrRounds = 10;
             const hashedPassword = await bcrypt.hash(password, saltOrRounds);
