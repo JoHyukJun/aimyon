@@ -40,8 +40,8 @@ export class UserService {
 
             return response;
         }
-        catch(e) {
-            throw new NotFoundException();
+        catch(err) {
+            throw new NotFoundException(err);
         }
     }
 
@@ -59,8 +59,8 @@ export class UserService {
 
             return response;
         }
-        catch(e) {
-            throw new NotFoundException();
+        catch(err) {
+            throw new NotFoundException(err);
         }
     }
 
@@ -76,8 +76,8 @@ export class UserService {
     
             return response;
         }
-        catch(e) {
-            throw new NotFoundException();
+        catch(err) {
+            throw new NotFoundException(err);
         }
     }
 
@@ -93,8 +93,8 @@ export class UserService {
 
             return response;
         }
-        catch(e) {
-            throw new NotFoundException();
+        catch(err) {
+            throw new NotFoundException(err);
         }
     }
 
@@ -108,8 +108,8 @@ export class UserService {
 
             return response;
         }
-        catch(e) {
-            throw new NotFoundException();
+        catch(err) {
+            throw new NotFoundException(err);
         }
     }
 
@@ -127,8 +127,8 @@ export class UserService {
 
             return response;
         }
-        catch(e) {
-            throw new NotFoundException();
+        catch(err) {
+            throw new NotFoundException(err);
         }
     }
 
@@ -150,8 +150,8 @@ export class UserService {
 
             return response;
         }
-        catch(e) {
-            throw new NotFoundException();
+        catch(err) {
+            throw new NotFoundException(err);
         }
     }
 
@@ -171,8 +171,8 @@ export class UserService {
 
             return response;
         }
-        catch(e) {
-            throw new NotFoundException();
+        catch(err) {
+            throw new NotFoundException(err);
         }
     }
 }

@@ -127,8 +127,8 @@ export class AuthService {
 
             return response;
         }
-        catch(e) {
-            throw new BadRequestException(e);
+        catch(err) {
+            throw new BadRequestException(err);
         }
     }
 
@@ -159,8 +159,8 @@ export class AuthService {
 
             return response;
         }
-        catch(e) {
-            throw new BadRequestException(e);
+        catch(err) {
+            throw new BadRequestException(err);
         }
     }
 
@@ -174,8 +174,8 @@ export class AuthService {
     
             return response;
         }
-        catch(e) {
-            throw new BadRequestException(e);
+        catch(err) {
+            throw new BadRequestException(err);
         }
     }
 }
