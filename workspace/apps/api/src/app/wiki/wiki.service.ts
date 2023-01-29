@@ -147,6 +147,18 @@ export class WikiService {
 
     async verifyWiki(wikiId: string, user: User) {
         try {
+            const wikiObject = await this.prisma.wiki.findUnique({
+                where: {
+                    id: wikiId
+                }
+            });
+
+            const wikiStatus = wikiObject.status;
+
+            if (wikiStatus !== 'PENDING') {
+                throw new BadRequestException('INVALID WIKI STATUS');
+            }
+
             const response = await this.prisma.wiki.update({
                 where: {
                     id: wikiId

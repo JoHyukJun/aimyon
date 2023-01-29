@@ -74,7 +74,6 @@ model Wiki {
 model WikiHistory {
   id                      String      @id @default(auto()) @map("_id") @db.ObjectId
   version                 Int         @default(0)
-  body                    String
   wikiId                  String      @db.ObjectId
   createdAt               DateTime    @default(now())
   updatedAt               DateTime    @updatedAt
