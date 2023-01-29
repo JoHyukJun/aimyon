@@ -26,11 +26,26 @@ export class WikiService {
         }
     }
 
-    async getWikiStatusHistory(wikiId: string) {
+    async getWikiHistroy(wikiId: string) {
         try {
-            const response = await this.prisma.wikiStatusHistory.findMany({
+            const response = await this.prisma.wikiHistory.findMany({
                 where: {
                     wikiId: wikiId
+                }
+            });
+
+            return response;
+        }
+        catch(err) {
+            throw new NotFoundException(err);
+        }
+    }
+
+    async getWikiById(wikiId: string) {
+        try {
+            const response = await this.prisma.wiki.findUnique({
+                where: {
+                    id: wikiId
                 }
             });
 
@@ -41,11 +56,26 @@ export class WikiService {
         }
     }
 
-    async getWikiById(wikiId: string) {
+    async getWikiByTopic(topic: string) {
         try {
-            const response = await this.prisma.wiki.findUnique({
+            const response = await this.prisma.wiki.findFirst({
                 where: {
-                    id: wikiId
+                    topic: topic
+                }
+            });
+
+            return response;
+        }
+        catch(err) {
+            throw new NotFoundException(err);
+        }
+    }
+
+    async getWikiStatusHistory(wikiId: string) {
+        try {
+            const response = await this.prisma.wikiStatusHistory.findMany({
+                where: {
+                    wikiId: wikiId
                 }
             });
 
@@ -66,11 +96,10 @@ export class WikiService {
                 data: {
                     ...createWikiDto,
                     status: 'PENDING',
-                    postedAt: new Date(),
                     statusHistory: {
                         create: {
                             ...statusHistory,
-                            userId: userId,
+                            userId: userId
                         }
                     }
                 },
@@ -106,6 +135,24 @@ export class WikiService {
             const response = await this.prisma.wiki.delete({
                 where: {
                     id: wikiId
+                }
+            });
+
+            return response;
+        }
+        catch(err) {
+            throw new BadRequestException(err);
+        }
+    }
+
+    async verifyWiki(wikiId: string, user: User) {
+        try {
+            const response = await this.prisma.wiki.update({
+                where: {
+                    id: wikiId
+                },
+                data: {
+
                 }
             });
 
