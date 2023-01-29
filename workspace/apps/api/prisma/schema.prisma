@@ -64,9 +64,17 @@ model Wiki {
   topic                   String      @unique
   body                    String
   status                  WikiStatus
+  version                 Int         @default(0)
   statusHistory           WikiStatusHistory[]
-  postedAt                DateTime
   published               Boolean     @default(true)
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
+}
+
+model WikiHistory {
+  id                      String      @id @default(auto()) @map("_id") @db.ObjectId
+  version                 Int         @default(0)
+  wikiId                  String      @db.ObjectId
   createdAt               DateTime    @default(now())
   updatedAt               DateTime    @updatedAt
 }

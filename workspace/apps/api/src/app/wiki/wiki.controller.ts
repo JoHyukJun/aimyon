@@ -5,7 +5,7 @@ import { TransformInterceptor } from '../common/interceptors/transform.intercept
 import { WikiService } from './wiki.service';
 import { GetUser } from '../common/decorators/user.decorator';
 import { User } from '@prisma/client';
-import { Body, UseGuards } from '@nestjs/common/decorators';
+import { Body, Param, UseGuards } from '@nestjs/common/decorators';
 import { CreateWikiDto } from '../common/dtos/wiki.dto';
 import { JwtAccessTokenAuthGuard } from '../auth/guards/jwt-accessToken.guard';
 
@@ -22,9 +22,20 @@ export class WikiController {
         return this.wikiService.getWikiAll();
     }
 
+    @Get(':topic')
+    getWikiByTopic(@Param('topic') topic: string) {
+        return this.wikiService.getWikiByTopic(topic);
+    }
+
     @Post()
     @UseGuards(JwtAccessTokenAuthGuard)
     createWiki(@GetUser() user: User, @Body() createWikiDto: CreateWikiDto) {
         return this.wikiService.createWiki(createWikiDto, user);
+    }
+
+    @Post(':wikiId')
+    @UseGuards(JwtAccessTokenAuthGuard)
+    verifyWiki(@Param('wikiId') wikiId: string, @GetUser() user: User) {
+        return this.wikiService.verifyWiki(wikiId, user);
     }
 }
