@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { UpdateUserDto } from '../common/dtos/user.dto';
+import { UpdateProfileDto, UpdateUserDto } from '../common/dtos/user.dto';
 
 @Injectable()
 export class UserService {
@@ -81,13 +81,11 @@ export class UserService {
         }
     }
 
-    async getUserProfile(params) {
+    async getUserProfile(userId: string) {
         try {
-            const id = params.id;
-
             const response = await this.prisma.profile.findFirst({
                 where: {
-                    userId: id
+                    userId: userId
                 }
             });
 
@@ -98,7 +96,7 @@ export class UserService {
         }
     }
 
-    async getUserProfileById(userId) {
+    async getUserProfileById(userId: string) {
         try {
             const response = await this.prisma.profile.findFirst({
                 where: {
@@ -155,7 +153,7 @@ export class UserService {
         }
     }
 
-    async updateUserProfile(params, updateProfileDto) {
+    async updateUserProfile(params, updateProfileDto: UpdateProfileDto) {
         try {
             const id = params.id;
             const updateData = {

@@ -37,9 +37,9 @@ export class UserController {
     }
 
     @Get('/profile/:id')
-    async getUserProfile(@Param() params) {
+    async getUserProfile(@Param('id') userId: string) {
         try {
-            return await this.userService.getUserProfile(params);
+            return await this.userService.getUserProfile(userId);
         }
         catch(err) {
             throw new BadRequestException(err);
