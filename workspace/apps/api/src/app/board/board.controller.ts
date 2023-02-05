@@ -22,25 +22,25 @@ export class BoardController {
         return this.boardSerive.getPostAll();
     }
 
-    @Get(':postId')
-    getPostById(@Param('postId') postId: string) {
+    @Get(':id')
+    getPostById(@Param('id') postId: string) {
         return this.boardSerive.getPostById(postId);
     }
 
-    @Get('/user/:userId')
-    getPostByUser(@Param('userId') userId: string) {
+    @Get('/user/:id')
+    getPostByUser(@Param('id') userId: string) {
         return this.boardSerive.getPostByUser(userId);
     }
 
-    @Delete(':postId')
+    @Delete(':id')
     @UseGuards(JwtAccessTokenAuthGuard)
-    deletePost(@Param('postId') postId: string, @GetUser() user: User) {
+    deletePost(@Param('id') postId: string, @GetUser() user: User) {
         return  this.boardSerive.deletePost(postId, user);
     }
 
-    @Patch(':postId')
+    @Patch(':id')
     @UseGuards(JwtAccessTokenAuthGuard, RoleGuard)
-    async updatePost(@Param('postId') postId: string, @Body() updatePostDto: UpdatePostDto, @GetUser() user: User) {
+    async updatePost(@Param('id') postId: string, @Body() updatePostDto: UpdatePostDto, @GetUser() user: User) {
         try {
             return await this.boardSerive.updatePost(postId, updatePostDto, user);
         }
@@ -73,9 +73,9 @@ export class BoardController {
         }
     }
 
-    @Patch('/comment/:commentId')
+    @Patch('/comment/:id')
     @UseGuards(JwtAccessTokenAuthGuard)
-    async updateComment(@Param('commentId') commentId: string, @GetUser() user: User, @Body() updateCommentDto: UpdateCommentDto) {
+    async updateComment(@Param('id') commentId: string, @GetUser() user: User, @Body() updateCommentDto: UpdateCommentDto) {
         try {
             return await this.boardSerive.updateComment(commentId, updateCommentDto, user);
 
@@ -85,9 +85,9 @@ export class BoardController {
         }
     }
 
-    @Delete('/comment/:commentId')
+    @Delete('/comment/:id')
     @UseGuards(JwtAccessTokenAuthGuard)
-    async deleteComment(@Param('commentId') commentId: string, @GetUser() user: User) {
+    async deleteComment(@Param('id') commentId: string, @GetUser() user: User) {
         try {
             return await this.boardSerive.deleteComment(commentId, user);
         }

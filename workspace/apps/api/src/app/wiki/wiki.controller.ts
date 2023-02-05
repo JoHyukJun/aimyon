@@ -27,6 +27,16 @@ export class WikiController {
         return this.wikiService.getWikiByTopic(topic);
     }
 
+    @Get(':id')
+    getWikiById(@Param('id') wikiId: string) {
+        return this.wikiService.getWikiById(wikiId);
+    }
+
+    @Get('history/:id')
+    getWikiHistoryById(@Param('id') wikiId: string) {
+        return this.wikiService.getWikiHistroy(wikiId);
+    }
+
     @Post()
     @UseGuards(JwtAccessTokenAuthGuard)
     createWiki(@GetUser() user: User, @Body() createWikiDto: CreateWikiDto) {
